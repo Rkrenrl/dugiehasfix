@@ -60,15 +60,7 @@ final class TermuxInstaller {
         // Ensure that termux files and home directory is created if it does not already exist:
         new File(activity.getFilesDir(), "home").mkdir();
 
-        // Termux can only be run as the primary user (device owner) since only that
-        // account has the expected file system paths. Verify that:
-        UserManager userManager = (UserManager) activity.getSystemService(Context.USER_SERVICE);
-        boolean isCurrentUserPrimary = userManager.getSerialNumberForUser(UserHandle.getUserHandleForUid(activity.getApplicationInfo().uid)) == 0;
-        if (!isCurrentUserPrimary) {
-            String bootstrapErrorMessage = activity.getString(R.string.bootstrap_error_not_primary_user_message);
-            TermuxMessageDialogUtils.exitAppWithErrorMessage(activity, activity.getString(R.string.bootstrap_error_title), bootstrapErrorMessage);
-            return;
-        }
+
 
         boolean isInstalledOnExternalStorage = (activity.getApplicationInfo().flags & ApplicationInfo.FLAG_EXTERNAL_STORAGE) != 0;
         if (isInstalledOnExternalStorage) {
